@@ -1,4 +1,8 @@
 package minefield_Graphics;
 
-public class Cell {
+import javax.swing.*;
+
+public class Cell extends JPanel {
+
+
 }
