@@ -1,0 +1,9 @@
+
+
+- main
+
+- graphics
+  - frame (bombs index - restart - life status - field_obj - repaint)
+  - field_class (cells array - methods - repaint_field)
+  - cell_class (button - thing_enum - control_method)
+
