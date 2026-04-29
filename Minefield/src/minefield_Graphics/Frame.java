@@ -33,10 +33,10 @@ public class Frame extends JFrame {
     }
 
     private int findHeight () {
-        return (square*25)+150;
+        return (square*35)+150;
     }
 
     private int findWidth () {
-        return (square*25)+100;
+        return (square*35)+100;
     }
 }
