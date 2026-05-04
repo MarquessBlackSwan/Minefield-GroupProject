@@ -1,19 +1,19 @@
-package minefield_Graphics;
+package minefield_Graphics; // con questo comando, dico al compilatore che il seguente file appartiene alla cartella "minefield_Graphics"
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.*; // importo Swing
+import java.awt.*; 
+import java.awt.event.*; // con il precedente e il seguente comando, importo awt (vecchio e nuovo), utile per i colori e trasmette delle informazione da una parte all'altra
 
-public class Cell extends JButton {
+public class Cell extends JButton { // inizializzo la classe Cell che estende la classe JButton appartenente a Swing (buttone)
 
     // Stato della cella
-    public enum State { HIDDEN, REVEALED, FLAGGED }
+    public enum State { HIDDEN, REVEALED, FLAGGED } // enum = raccolte di variabili, con valore personalizzabile
 
     private final int value;      // 0 = vuoto, 1-8 = numero, 9 = bomba
-    private State state;
+    private State state; // inizializzo la variabile state (tipologia: State - uno dei valori)
 
     // Palette colori per i numeri (classico Minesweeper)
-    private static final Color[] NUMBER_COLORS = {
+    private static final Color[] NUMBER_COLORS = { // array che contiene degli attributi (colori)
         null,                          // 0 - non usato
         new Color(0, 0, 255),         // 1 - blu
         new Color(0, 128, 0),         // 2 - verde
@@ -24,7 +24,7 @@ public class Cell extends JButton {
         new Color(0, 0, 0),           // 7 - nero
         new Color(128, 128, 128),     // 8 - grigio
     };
-
+// colori aggiuntivi per le stati della cellula 
     private static final Color COLOR_HIDDEN   = new Color(189, 189, 189);
     private static final Color COLOR_REVEALED = new Color(224, 224, 224);
     private static final Color COLOR_BOMB     = new Color(255, 80, 80);
@@ -32,48 +32,48 @@ public class Cell extends JButton {
     private static final Color COLOR_BORDER_LIGHT = new Color(255, 255, 255);
     private static final Color COLOR_BORDER_DARK  = new Color(120, 120, 120);
 
-    public Cell(int value) {
-        this.value = value;
-        this.state = State.HIDDEN;
+    public Cell(int value) { // costruttore Cell con valore di input 
+        this.value = value; // impone questo valore uguale a value
+        this.state = State.HIDDEN; // stato della cella nascosto come standard
 
-        setPreferredSize(new Dimension(35, 35));
-        setFont(new Font("Arial", Font.BOLD, 14));
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setPreferredSize(new Dimension(35, 35)); // grandezza bottone
+        setFont(new Font("Arial", Font.BOLD, 14)); // font utilizzato
+        setBorderPainted(false); // contorno non colore, con true colorato
+        setFocusPainted(false); // dopo aver cliccato, non si colora (con true si colorerebbe)
+        setContentAreaFilled(false); // riempe l'interno del bottone (non lo colora)
+        setCursor(new Cursor(Cursor.HAND_CURSOR)); // crea un nuovo cursore per il gioco
     }
-
+    
     // --- Metodi di stato ---
 
-    public void reveal() {
-        if (state == State.HIDDEN) {
-            state = State.REVEALED;
-            repaint();
+    public void reveal() { // Metodo "reveal" (rivela la casella se cliccata)
+        if (state == State.HIDDEN) { // controllo se è nascosta, 
+            state = State.REVEALED; // se è nascosta, la rivelo e 
+            repaint(); // la aggiorno (la grafica)
         }
     }
 
-    public void toggleFlag() {
-        if (state == State.HIDDEN) {
-            state = State.FLAGGED;
-        } else if (state == State.FLAGGED) {
-            state = State.HIDDEN;
+    public void toggleFlag() { // Metodo "toggleFlag" (impone una bandiera se clicca la cella)
+        if (state == State.HIDDEN) { // controllo se la cella è nascosta,
+            state = State.FLAGGED; // se è nascosta, impongo una bandiera 
+        } else if (state == State.FLAGGED) { // controllo se la cella è bandierata
+            state = State.HIDDEN; // se è già bandierata, la nascondo
         }
-        repaint();
+        repaint(); // la aggiorno (la grafica)
     }
 
-    public boolean isRevealed() { return state == State.REVEALED; }
-    public boolean isFlagged()  { return state == State.FLAGGED; }
-    public boolean isHidden()   { return state == State.HIDDEN; }
-    public boolean isBomb()     { return value == 9; }
-    public int getValue()       { return value; }
+    public boolean isRevealed() { return state == State.REVEALED; }  // se lo stato è rivelato, restituisco un vero, altrimenti un false.
+    public boolean isFlagged()  { return state == State.FLAGGED; } // se lo stato è bandierato, restituisco un vero, altrimenti un false.
+    public boolean isHidden()   { return state == State.HIDDEN; } // se lo stato è nascosto, restituisco un vero, altrimenti un false.
+    public boolean isBomb()     { return value == 9; } // ritorno un true se la cella è uguale a 9, altrimenti un false.
+    public int getValue()       { return value; } // ritorna il valore 
 
     // Mostra la bomba (game over)
-    public void revealBomb() {
-        state = State.REVEALED;
-        repaint();
+    public void revealBomb() { // Metodo "revealBomb" (per gameOver)
+        state = State.REVEALED; // impone lo stato della cella uguale a rivelato
+        repaint(); // la aggiorno (la grafica)
     }
-
+// (fine 04/05)
     // --- Rendering ---
 
     @Override
