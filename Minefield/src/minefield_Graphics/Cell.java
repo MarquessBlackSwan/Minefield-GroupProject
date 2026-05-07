@@ -73,30 +73,30 @@ public class Cell extends JButton { // inizializzo la classe Cell che estende la
         state = State.REVEALED; // impone lo stato della cella uguale a rivelato
         repaint(); // la aggiorno (la grafica)
     }
-// (fine 04/05)
+
     // --- Rendering ---
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    @Override // personalizzo un metodo che già esiste
+    protected void paintComponent(Graphics g) { // metodo che prende in input una variabile grafica
+        Graphics2D g2 = (Graphics2D) g.create(); // crea una nuova variabile appartenente alla classe Graphics2D con delle grafiche 
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);// set up grafica
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // set up grafica
 
-        int w = getWidth();
-        int h = getHeight();
+        int w = getWidth(); // si prende la finestra e si ottiene la sua grandezza 
+        int h = getHeight(); // si prende la finestra e si ottiene l'altezza 
 
-        switch (state) {
-            case HIDDEN   -> paintHidden(g2, w, h);
-            case REVEALED -> paintRevealed(g2, w, h);
-            case FLAGGED  -> paintFlagged(g2, w, h);
+        switch (state) { // switch in cui passo lo stato della cella
+            case HIDDEN   -> paintHidden(g2, w, h); // caso nascosto: svolgo questa funzione
+            case REVEALED -> paintRevealed(g2, w, h); // caso rivelato: svolgo questa funzione
+            case FLAGGED  -> paintFlagged(g2, w, h); // caso bandierato: svolgo questa funzione
         }
 
-        g2.dispose();
+        g2.dispose(); // elimino g2 e mi assicuro che non rimanga da nessuna parte
     }
 
-    private void paintHidden(Graphics2D g2, int w, int h) {
+    private void paintHidden(Graphics2D g2, int w, int h) { // metodo private che non ritorna nulla, prende in input g2, w e h
         // Sfondo rialzato stile classic minesweeper
-        g2.setColor(COLOR_HIDDEN);
+        g2.setColor(COLOR_HIDDEN); 
         g2.fillRect(0, 0, w, h);
 
         // Bordo 3D
@@ -108,14 +108,14 @@ public class Cell extends JButton { // inizializzo la classe Cell che estende la
         g2.fillRect(w - 2, 0, 2, h);
     }
 
-    private void paintRevealed(Graphics2D g2, int w, int h) {
+    private void paintRevealed(Graphics2D g2, int w, int h) { // metodo private che non ritorna nulla, prende in input g2, w e h
         // Sfondo
-        if (value == 9) {
-            g2.setColor(COLOR_BOMB);
-        } else {
-            g2.setColor(COLOR_REVEALED);
+        if (value == 9) { // se il valore è uguale a 9,
+            g2.setColor(COLOR_BOMB); // la cella contine una bomba
+        } else { // altrimenti 
+            g2.setColor(COLOR_REVEALED); // rivelo il colore (con il numero) 
         }
-        g2.fillRect(0, 0, w, h);
+        g2.fillRect(0, 0, w, h); // colora la cella 
 
         // Bordo sottile
         g2.setColor(COLOR_BORDER_DARK);
@@ -123,7 +123,7 @@ public class Cell extends JButton { // inizializzo la classe Cell che estende la
 
         if (value == 9) {
             // Disegna bomba
-            drawBomb(g2, w, h);
+            drawBomb(g2, w, h); 
         } else if (value > 0) {
             // Disegna numero
             g2.setColor(NUMBER_COLORS[value]);
@@ -136,47 +136,49 @@ public class Cell extends JButton { // inizializzo la classe Cell che estende la
         }
     }
 
-    private void paintFlagged(Graphics2D g2, int w, int h) {
+    private void paintFlagged(Graphics2D g2, int w, int h) { // metodo private che non ritorna nulla, prende in input g2, w e h
         // Sfondo come hidden
         paintHidden(g2, w, h);
 
         // Bandierina
-        int cx = w / 2;
-        int cy = h / 2;
+        int cx = w / 2; // centro della bandierina in x
+        int cy = h / 2; // centro della bandierina in y
 
         // Asta
-        g2.setColor(new Color(60, 60, 60));
-        g2.setStroke(new BasicStroke(2f));
-        g2.drawLine(cx - 1, cy + 6, cx - 1, cy - 7);
+        g2.setColor(new Color(60, 60, 60)); // imponimento colore dell'asta 
+        g2.setStroke(new BasicStroke(2f)); // crea il contorno dell'asta 
+        g2.drawLine(cx - 1, cy + 6, cx - 1, cy - 7); // Disegna la linea dell'asta 
 
         // Triangolo bandiera
-        int[] xPts = { cx - 1, cx - 1, cx + 8 };
-        int[] yPts = { cy - 7, cy + 1, cy - 3 };
-        g2.setColor(new Color(220, 50, 50));
-        g2.fillPolygon(xPts, yPts, 3);
+        int[] xPts = { cx - 1, cx - 1, cx + 8 }; // forma del Triangolo 
+        int[] yPts = { cy - 7, cy + 1, cy - 3 }; // forma del Triangolo 
+        g2.setColor(new Color(220, 50, 50)); // colore della bandiera
+        g2.fillPolygon(xPts, yPts, 3); // figura triangolare per la bandiera 
 
         // Base
-        g2.setColor(new Color(60, 60, 60));
-        g2.fillRect(cx - 5, cy + 6, 9, 2);
+        g2.setColor(new Color(60, 60, 60)); // imponimento colore base 
+        g2.fillRect(cx - 5, cy + 6, 9, 2); // riempimento della base
     }
-
-    private void drawBomb(Graphics2D g2, int w, int h) {
-        int cx = w / 2;
-        int cy = h / 2;
-        int r  = 7;
+    
+    
+    private void drawBomb(Graphics2D g2, int w, int h) { // metodo private che non ritorna a nulla, prende in input g2, w e h
+        int cx = w / 2; // centro della bomba in x
+        int cy = h / 2; // centro della bomba in y
+        int r  = 7; // raggio bomba
 
         // Corpo circolare
-        g2.setColor(Color.BLACK);
-        g2.fillOval(cx - r, cy - r, r * 2, r * 2);
+        g2.setColor(Color.BLACK); // imponimento colore per il corpo circolare della bomba 
+        g2.fillOval(cx - r, cy - r, r * 2, r * 2); // creazione del corpo circolare della bomba
 
         // Riflesso
-        g2.setColor(new Color(255, 255, 255, 150));
-        g2.fillOval(cx - r / 2, cy - r / 2 - 1, r / 2, r / 3);
+        g2.setColor(new Color(255, 255, 255, 150)); // imponimento colore del riflesso
+        g2.fillOval(cx - r / 2, cy - r / 2 - 1, r / 2, r / 3); // riempe il riflesso 
 
         // Spine
-        g2.setColor(Color.BLACK);
-        g2.setStroke(new BasicStroke(2f));
-        g2.drawLine(cx, cy - r - 2, cx, cy + r + 2);
+        g2.setColor(Color.BLACK); // impone il colore per le Spine 
+        g2.setStroke(new BasicStroke(2f)); // crea il contorno delle Spine 
+        // creazione delle Spine 
+        g2.drawLine(cx, cy - r - 2, cx, cy + r + 2); 
         g2.drawLine(cx - r - 2, cy, cx + r + 2, cy);
         g2.drawLine(cx - 5, cy - 5, cx + 5, cy + 5);
         g2.drawLine(cx + 5, cy - 5, cx - 5, cy + 5);
