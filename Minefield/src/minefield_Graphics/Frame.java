@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Frame extends JFrame implements Field.GameListener {
+public class  Frame extends JFrame implements Field.GameListener {
 
     // --- Costanti ---
     private static final int CELL_SIZE   = 35;
@@ -34,7 +34,6 @@ public class Frame extends JFrame implements Field.GameListener {
 
     // =========================================================
     //  Costruttore
-    // =========================================================
 
     public Frame(int gridSize) {
         this.gridSize = gridSize;
@@ -45,7 +44,6 @@ public class Frame extends JFrame implements Field.GameListener {
 
     // =========================================================
     //  Setup frame
-    // =========================================================
 
     private void buildFrame() {
         setTitle("Minefield");
@@ -167,7 +165,6 @@ public class Frame extends JFrame implements Field.GameListener {
 
     // =========================================================
     //  Logica di gioco
-    // =========================================================
 
     private void newGame() {
         // Reset timer
@@ -240,8 +237,7 @@ public class Frame extends JFrame implements Field.GameListener {
     }
 
     // =========================================================
-    //  Timer
-    // =========================================================
+    //  Timer setup
 
     private void initTimer() {
         swingTimer = new Timer(1000, e -> {
@@ -252,7 +248,6 @@ public class Frame extends JFrame implements Field.GameListener {
 
     // =========================================================
     //  GameListener callbacks
-    // =========================================================
 
     @Override
     public void onGameOver() {
@@ -286,9 +281,7 @@ public class Frame extends JFrame implements Field.GameListener {
         bombCountLabel.setText("💣  " + remaining);
     }
 
-    // =========================================================
     //  Dialog fine partita
-    // =========================================================
 
     private void showEndDialog(boolean won) {
         String[] options = { "Nuova partita", "Esci" };

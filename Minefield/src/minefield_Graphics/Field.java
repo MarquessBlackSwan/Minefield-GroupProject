@@ -4,11 +4,13 @@ import java.util.Random;
 
 public class Field {
 
+    // --- Costanti ---
     private final Cell[][] cells;
     private final int[][] template;
     private final Random rand;
     private final int length;
 
+    // --- Numbers ---
     private int revealedCount = 0;
     private int flaggedBombs  = 0;
     private final int totalBombs;
@@ -22,6 +24,9 @@ public class Field {
 
     private GameListener listener;
 
+    // =========================================================
+    //  Costruttore
+
     public Field(int length, int bombNum) {
         this.length     = length;
         this.totalBombs = bombNum;
@@ -33,6 +38,7 @@ public class Field {
 
     public void setGameListener(GameListener l) { this.listener = l; }
 
+    // =========================================================
     // --- Setup griglia ---
 
     private int[][] setUpTemplate(int bombNum) {
@@ -84,13 +90,9 @@ public class Field {
         }
     }
 
+    // =========================================================
     // --- Azioni giocatore ---
 
-    /**
-     * Scopre una cella. Se è una bomba → game over.
-     * Se è 0 → flood fill ricorsivo.
-     * @return true se la partita continua
-     */
     public boolean revealCell(int col, int row) {
         Cell cell = cells[row][col];
 
@@ -127,9 +129,8 @@ public class Field {
         }
     }
 
-    /**
-     * Piazza o rimuove una bandierina.
-     */
+     // Piazza o rimuove una bandierina.
+
     public void toggleFlag(int col, int row) {
         Cell cell = cells[row][col];
         if (cell.isRevealed()) return;

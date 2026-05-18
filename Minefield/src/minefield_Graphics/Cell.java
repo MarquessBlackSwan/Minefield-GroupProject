@@ -9,10 +9,10 @@ public class Cell extends JButton {
     // Stato della cella
     public enum State { HIDDEN, REVEALED, FLAGGED }
 
-    private final int value;      // 0 = vuoto, 1-8 = numero, 9 = bomba
+    private final int value;
     private State state;
 
-    // Palette colori per i numeri (classico Minesweeper)
+    // Palette colori per i numeri
     private static final Color[] NUMBER_COLORS = {
         null,                          // 0 - non usato
         new Color(0, 0, 255),         // 1 - blu
@@ -31,6 +31,9 @@ public class Cell extends JButton {
     private static final Color COLOR_FLAG     = new Color(255, 200, 50);
     private static final Color COLOR_BORDER_LIGHT = new Color(255, 255, 255);
     private static final Color COLOR_BORDER_DARK  = new Color(120, 120, 120);
+
+    // =========================================================
+    //  Costruttore
 
     public Cell(int value) {
         this.value = value;
@@ -95,7 +98,6 @@ public class Cell extends JButton {
     }
 
     private void paintHidden(Graphics2D g2, int w, int h) {
-        // Sfondo rialzato stile classic minesweeper
         g2.setColor(COLOR_HIDDEN);
         g2.fillRect(0, 0, w, h);
 
